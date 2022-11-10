@@ -1,0 +1,79 @@
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
+
+    @TeleOp
+    public class JagChrista extends OpMode {
+        public DcMotor BR, BL, lift;
+        public Servo scooper;
+        private double powerRY, powerRX, powerLX, powerLY, powerLI;
+
+
+        @Override
+        public void init() {
+
+            BR = hardwareMap.get(DcMotor.class, "BR");
+            BL = hardwareMap.get(DcMotor.class, "BL");
+            scooper = hardwareMap.get(Servo.class, "scooper");
+            lift = hardwareMap.get(DcMotor.class, "lift");
+            BR.setDirection(DcMotorSimple.Direction.FORWARD);
+            BL.setDirection(DcMotorSimple.Direction.REVERSE);
+            lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            BR.setPower(0);
+            BL.setPower(0);
+            lift.setPower(0);
+            scooper.setPosition(0);
+        }
+
+
+        @Override
+        public void loop() {
+
+            
+            powerLY = gamepad1.left_stick_y;
+            powerRY = gamepad1.right_stick_y;
+            powerLI = gamepad1.right_trigger;
+
+            if (powerRY < -0.3 || powerRY > 0.3) {
+                BL.setPower(powerRY);
+                BR.setPower(powerRY);
+            } else {
+                BL.setPower(0);
+                BR.setPower(0);
+            }
+
+            if (powerLY < -0.3 || powerLY > 0.3) {
+                BR.setPower(powerLY);
+                BL.setPower(powerLY);
+            } else {
+                BR.setPower(0);
+                BL.setPower(0);
+
+            }
+            if(gamepad1.dpad_up)
+            {
+                scooper.setPosition(0);
+            }
+            else{
+                scooper.setPosition(0);
+            }
+            if(gamepad1.dpad_down)
+            {
+                scooper.setPosition(0.4);
+            }
+            else{
+                scooper.setPosition(0);
+            }
+            if(powerLI > 0.4){
+                lift.setPower(powerLI);
+            }
+            else {
+                lift.setPower(0);
+            }
+        }
+    }
+
