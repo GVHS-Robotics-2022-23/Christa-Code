@@ -33,10 +33,8 @@ import com.qualcomm.robotcore.hardware.Servo;
         @Override
         public void loop() {
 
-            
             powerLY = gamepad1.left_stick_y;
             powerRY = gamepad1.right_stick_y;
-            powerLI = gamepad1.right_trigger;
 
             if (powerRY < -0.3 || powerRY > 0.3) {
                 BL.setPower(powerRY);
@@ -54,22 +52,20 @@ import com.qualcomm.robotcore.hardware.Servo;
                 BL.setPower(0);
 
             }
-            if(gamepad1.dpad_up)
-            {
+            if(gamepad1.dpad_up) {
                 scooper.setPosition(0);
-            }
-            else{
-                scooper.setPosition(0);
-            }
-            if(gamepad1.dpad_down)
+            }if(gamepad1.dpad_down)
             {
                 scooper.setPosition(0.4);
             }
-            else{
-                scooper.setPosition(0);
+            if(gamepad1.right_trigger > 0.2){
+                lift.setPower(0.5);
             }
-            if(powerLI > 0.4){
-                lift.setPower(powerLI);
+            else {
+                lift.setPower(0);
+            }
+            if(gamepad1.left_trigger > 0.2){
+                lift.setPower(-0.5);
             }
             else {
                 lift.setPower(0);
