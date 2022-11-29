@@ -8,9 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
     @TeleOp
     public class JagChrista extends OpMode {
         public DcMotor BR, BL, lift;
-        public Servo scooper;
-        private double powerRY, powerRX, powerLX, powerLY, powerLI;
-
+        public Servo scooper, holder;
+        private double powerRY,powerLY;
 
         @Override
         public void init() {
@@ -18,57 +17,64 @@ import com.qualcomm.robotcore.hardware.Servo;
             BR = hardwareMap.get(DcMotor.class, "BR");
             BL = hardwareMap.get(DcMotor.class, "BL");
             scooper = hardwareMap.get(Servo.class, "scooper");
+            holder = hardwareMap.get(Servo.class, "holder");
             lift = hardwareMap.get(DcMotor.class, "lift");
-            BR.setDirection(DcMotorSimple.Direction.FORWARD);
-            BL.setDirection(DcMotorSimple.Direction.REVERSE);
-            lift.setDirection(DcMotorSimple.Direction.REVERSE);
+            BR.setDirection(DcMotorSimple.Direction.REVERSE);
+            BL.setDirection(DcMotorSimple.Direction.FORWARD);
+            lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
             BR.setPower(0);
             BL.setPower(0);
             lift.setPower(0);
             scooper.setPosition(0);
+            holder.setPosition(0);
         }
 
 
         @Override
         public void loop() {
 
-            powerLY = gamepad1.left_stick_y;
-            powerRY = gamepad1.right_stick_y;
+            powerLY = gamepad1.left_stick_y/2;
+            powerRY = gamepad1.right_stick_y/2;
 
-            if (powerRY < -0.3 || powerRY > 0.3) {
-                BL.setPower(powerRY);
+            if(gamepad1.left_bumper || gamepad1.right_bumper){
+                powerLY = gamepad1.left_stick_y / 3;
+                powerRY = gamepad1.right_stick_y / 3;
+            }
+
+            if (powerRY < -0.07 || powerRY > 0.07) {
                 BR.setPower(powerRY);
             } else {
-                BL.setPower(0);
                 BR.setPower(0);
             }
 
-            if (powerLY < -0.3 || powerLY > 0.3) {
-                BR.setPower(powerLY);
+            if (powerLY < -0.07 || powerLY > 0.07) {
                 BL.setPower(powerLY);
             } else {
-                BR.setPower(0);
                 BL.setPower(0);
 
             }
-            if(gamepad1.dpad_up) {
-                scooper.setPosition(0);
-            }if(gamepad1.dpad_down)
+
+            if(gamepad2.dpad_up)
             {
+                lift.setPower(0.7);
+            } else {
+                lift.setPower(0);
+            }
+            if(gamepad2.dpad_down){
+                lift.setPower(-0.6);
+            } else {
+                lift.setPower(0);
+            }
+            if(gamepad2.a){
                 scooper.setPosition(0.4);
+            } else if (gamepad2.y){
+                scooper.setPosition(0);
             }
-            if(gamepad1.right_trigger > 0.2){
-                lift.setPower(0.5);
-            }
-            else {
-                lift.setPower(0);
-            }
-            if(gamepad1.left_trigger > 0.2){
-                lift.setPower(-0.5);
-            }
-            else {
-                lift.setPower(0);
+            if(gamepad2.b){
+                holder.setPosition(0.4);
+            } else if (gamepad2.x){
+                holder.setPosition(0);
             }
         }
     }
