@@ -1,0 +1,77 @@
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@TeleOp
+public class JagChrista extends OpMode {
+    public DcMotor BR, BL, lift;
+    public Servo claw;
+    private double powerRY,powerLY;
+
+    @Override
+    public void init() {
+
+        BR = hardwareMap.get(DcMotor.class, "BR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        claw = hardwareMap.get(Servo.class, "claw");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        BR.setPower(0);
+        BL.setPower(0);
+        lift.setPower(0);
+        claw.setPosition(0);
+
+    }
+
+
+    @Override
+    public void loop() {
+
+        powerLY = gamepad1.left_stick_y/2;
+        powerRY = gamepad1.right_stick_y/2;
+
+        if(gamepad1.left_bumper || gamepad1.right_bumper){
+            powerLY = gamepad1.left_stick_y / 3;
+            powerRY = gamepad1.right_stick_y / 3;
+        }
+
+        if (powerRY < -0.07 || powerRY > 0.07) {
+            BR.setPower(powerRY);
+        } else {
+            BR.setPower(0);
+        }
+
+        if (powerLY < -0.07 || powerLY > 0.07) {
+            BL.setPower(powerLY);
+        } else {
+            BL.setPower(0);
+
+        }
+
+        if(gamepad2.dpad_up)
+        {
+            lift.setPower(0.7);
+        } else {
+            lift.setPower(0);
+        }
+
+        if(gamepad2.dpad_down){
+            lift.setPower(-0.6);
+        } else {
+            lift.setPower(0);
+        }
+
+        if(gamepad2.a){
+            claw.setPosition(0.45);
+        } else if (gamepad2.y){
+            claw.setPosition(0);
+        }
+    }
+}
+
