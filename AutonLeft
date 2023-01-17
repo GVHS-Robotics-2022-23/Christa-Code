@@ -1,0 +1,387 @@
+package org.firstinspires.ftc.teamcode;
+
+import java.lang.Math;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous
+public class Auton extends LinearOpMode
+{
+    public DcMotor BR, BL,linear;
+    public Servo claw;
+
+    //clicks per degree
+    double cpd = 21.94;
+
+    //clicks per inch
+    double cpi = 87.5;
+
+    public enum robotMotion
+    {
+        forward, backward, right, left, openClaw, closeClaw, linearup, lineardown;
+    }
+
+    @Override
+    public void runOpMode() throws InterruptedException
+    {
+        BR = hardwareMap.get(DcMotor.class, "BR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        linear = hardwareMap.get(DcMotor.class, "L");
+        claw = hardwareMap.get(Servo.class, "c");
+
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        linear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        linear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BR.setPower(0);
+        BL.setPower(0);
+        linear.setPower(0);
+        claw.setPosition(0);
+        
+
+        //auton right
+        waitForStart();
+
+        linearup(12,0.6);
+        sleep(1000);
+        forward(21,0.1);
+        sleep(2000);
+        int x = 1;
+        int y = 2;
+        int z = 3;
+      
+        if (color.blue()-100 < color.red() && color.blue()+100 > color.red())
+        //red (Position one)
+        {
+            telemetry.addData("RED", x);
+            telemetry.update();
+            movementFB(robotMotion.forward, 39, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.7, 0.4);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 11.75,0.3);
+            lineardown(10.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(10.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.4);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(7.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+
+            movementRL(robotMotion.left, 90);
+            movementFB(robotMotion.forward, 45, 0.4);
+
+        } else if(color.green() > color.blue())
+        //green (Position two)
+        {
+            telemetry.addData("GREEN", y);
+            telemetry.update();
+            movementFB(robotMotion.forward, 39, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.7, 0.4);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 11.75,0.3);
+            lineardown(10.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(10.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.4);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(7.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+
+            movementRL(robotMotion.left, 90);
+            movementFB(robotMotion.forward, 10, 0.4);
+            
+        } else if(color.blue() > color.green())
+        // blue (Position three)
+        {
+            telemetry.addData("BLUE", z);
+            telemetry.update();
+
+            movementFB(robotMotion.forward, 39, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.7, 0.4);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 11.75,0.3);
+            lineardown(10.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(10.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.4);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+            movementRL(robotMotion.left, 90, 0.25);
+            movementFB(robotMotion.forward, 47.5, 0.4);
+            linearup(7.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.closeClaw, 0.45);
+            movementFB(robotMotion.backward, 47.5, 0.4);
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 11.5, 0.3);
+            linearup(33.5, 0.25);
+            Clawmovement(200, Auton.robotMotion.openClaw, 0);
+            movementFB(robotMotion.backward, 10.5,0.25);
+            lineardown(33.5,0.25);
+            
+            movementRL(robotMotion.right, 90, 0.25);
+            movementFB(robotMotion.forward, 10, 0.4);
+        }
+        else //Fail
+        {
+            claw.setPosition(0.45);
+        }
+
+        BR.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        FL.setPower(0);
+        linear.setPower(0);
+
+    }
+
+        BR.setPower(0);
+        BL.setPower(0);
+        linear.setPower(0);
+
+    }
+
+
+    private void movementFB(robotMotion action, double inch,  double power)
+    {
+        if(action == robotMotion.forward)
+        {
+            //Sets new position for motors
+            BL.setTargetPosition((int) ( BL.getCurrentPosition() + (inch*cpi)));
+            BR.setTargetPosition((int) ( BR.getCurrentPosition() + (inch*cpi)));
+
+            //Sets desired power for motors
+            BL.setPower(power);
+            BR.setPower(power);
+
+            //Makes the motors to run to the position
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Loop to run encoders method
+            while (BL.isBusy() && BR.isBusy())
+            {
+//                telemetry.addLine("Move Forward");
+//                telemetry.addData("Target", "%7d :%7d : %7d : %7d", FL, FR, BL, BR);
+//                telemetry.addData("Actual", "%7d :%7d : %7d : %7d", FL.getCurrentPosition(),
+//                        FR.getCurrentPosition(), BL.getCurrentPosition(),
+//                        BR.getCurrentPosition());
+//                telemetry.update();
+            }
+
+            //Stop motors
+            BL.setPower(0);
+            BR.setPower(0);
+
+            BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        }
+        else if (action == robotMotion.backward)
+        {
+            //Sets new position for motors
+            BL.setTargetPosition((int) ( BL.getCurrentPosition() - (inch*cpi)));
+            BR.setTargetPosition((int) ( BR.getCurrentPosition() - (inch*cpi)));
+
+            //Sets desired power for motors
+            BL.setPower(power);
+            BR.setPower(power);
+
+            //Makes the motors to run to the position
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Loop to run encoders method
+            while (BL.isBusy() && BR.isBusy())
+            {
+
+            }
+
+            //Stop motors
+            BL.setPower(0);
+            BR.setPower(0);
+
+            BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+
+    private void movementRL(robotMotion action, double degree,  double power)
+    {
+        if(action == robotMotion.left)
+        {
+            //Sets new position for motors
+            BL.setTargetPosition((int) ( BL.getCurrentPosition() - (degree*cpd)));
+            BR.setTargetPosition((int) ( BR.getCurrentPosition() + (degree*cpd)));
+
+            //Sets desired power for motors
+            BL.setPower(-power);
+            BR.setPower(power);
+
+            //Makes the motors to run to the position
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Loop to run encoders method
+            while (BL.isBusy() && BR.isBusy())
+            {
+
+            }
+
+            //Stop motors
+            BL.setPower(0);
+            BR.setPower(0);
+
+            BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        else if (action == robotMotion.right)
+        {
+            //Sets new position for motors
+            BL.setTargetPosition((int) ( BL.getCurrentPosition() + (degree*cpd)));
+            BR.setTargetPosition((int) ( BR.getCurrentPosition() - (degree*cpd)));
+
+            //Sets desired power for motors
+            BR.setPower(power);
+            BL.setPower(-power);
+
+            //Makes the motors to run to the position
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Loop to run encoders method
+            while (BL.isBusy() && BR.isBusy())
+            {
+
+            }
+
+            //Stop motors
+            BL.setPower(0);
+            BR.setPower(0);
+
+
+            BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+
+
+    private void linearup(double inch, double power)
+    {
+        linear.setTargetPosition((int) (linear.getCurrentPosition() + (inch*cpi)));
+        linear.setPower(power);
+        linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (linear.isBusy())
+        {
+
+        }
+        linear.setPower(0.1);
+
+        linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    private void lineardown(double inch, double power)
+    {
+        linear.setTargetPosition((int) (linear.getCurrentPosition() - (inch*cpi)));
+        linear.setPower(power);
+        linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (linear.isBusy())
+        {
+
+        }
+
+        linear.setPower(0);
+
+        linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    private void Clawmovement(int Sleep, robotMotion action, double position)
+    {
+        if(action == robotMotion.openClaw)
+        {
+            claw.setPosition(position);
+            sleep(Sleep);
+        }
+        else if(action == robotMotion.closeClaw)
+        {
+            claw.setPosition(position);
+            sleep(Sleep);
+        }
+    }
+
+    private void robotsleep(int sleep, double power)
+    {
+        BR.setPower(0);
+        BL.setPower(0);
+        linear.setPower(0);
+    }
+
+}
