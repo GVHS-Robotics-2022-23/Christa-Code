@@ -18,14 +18,14 @@ public class JagChrista extends OpMode {
         BL = hardwareMap.get(DcMotor.class, "BL");
         claw = hardwareMap.get(Servo.class, "claw");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         BR.setPower(0);
         BL.setPower(0);
         lift.setPower(0);
-        claw.setPosition(0);
+        claw.setPosition(0.25);
 
     }
 
@@ -68,10 +68,9 @@ public class JagChrista extends OpMode {
         }
 
         if(gamepad2.a){
-            claw.setPosition(0.45);
+            claw.setPosition(0.5);
         } else if (gamepad2.y){
-            claw.setPosition(0);
+            claw.setPosition(0.25);
         }
     }
 }
-
