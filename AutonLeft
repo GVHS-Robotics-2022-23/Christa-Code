@@ -17,10 +17,10 @@ public class AutonLeftExp extends LinearOpMode
     public ColorSensor color;
 
     //clicks per degree
-    double cpd = 21.94;
+    double cpd = 2.23;
 
     //clicks per inch
-    double cpi = 87.5;
+    double cpi = 4.95;
 
     public enum robotMotion
     {
@@ -67,8 +67,7 @@ public class AutonLeftExp extends LinearOpMode
 
          */
         movementFB(robotMotion.forward,18,0.2);
-        sleep(2000);
-
+        sleep(500);
 
         int x = 1;
         int y = 2;
