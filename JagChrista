@@ -41,13 +41,13 @@ public class JagChrista extends OpMode {
             powerRY = gamepad1.right_stick_y / 3;
         }
 
-        if (powerRY < -0.07 || powerRY > 0.07) {
+        if (powerRY < -0.09 || powerRY > 0.09) {
             BR.setPower(powerRY);
         } else {
             BR.setPower(0);
         }
 
-        if (powerLY < -0.07 || powerLY > 0.07) {
+        if (powerLY < -0.09 || powerLY > 0.09) {
             BL.setPower(powerLY);
         } else {
             BL.setPower(0);
@@ -56,7 +56,7 @@ public class JagChrista extends OpMode {
 
         if(gamepad2.dpad_up)
         {
-            lift.setPower(0.7);
+            lift.setPower(0.8);
         } else {
             lift.setPower(0);
         }
